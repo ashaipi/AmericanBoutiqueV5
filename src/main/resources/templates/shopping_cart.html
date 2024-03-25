@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="../static/css/MainStyles.css" th:href="@{/css/MainStyles.css}" rel="stylesheet" />
+    <link href="../static/css/MainStyles.css" th:href="@{/css/HomeStyles.css}" rel="stylesheet" />
+
+    <title>Shopping Cart: American Boutique</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fde0dc; /* Light pink background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav {
+            background-color: #555;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        header{
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Parisienne',serif;
+            color: gold;
+            font-size: 50px;
+            margin: auto auto 0;
+
+        }
+
+        .container {
+            max-width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            background-color: #fff;
+            padding: 10px;
+            margin: 20px;
+            width: 100px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .product-content {
+            padding: 10px 0;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+        }
+
+        .product p {
+            margin: 10px 0;
+        }
+
+        .product button {
+            display: block;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+
+        .product button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #cecece;
+            padding: 1px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+
+</head>
+<body>
+    <header>
+        American Boutique
+    </header>
+    <nav id="nav">
+        <a th:href="@{/home}">Home</a>
+        <a th:href = "@{/TEST}">Payment</a>
+    </nav>
+    <br>
+
+    <h1 style="text-align: center">Shopping Cart</h1>
+    <p style="text-align: center; font-family: Helvetica,serif; font-size: 20px">Total in cart [
+        <span style="font-weight:bold;" th:text="${totalInCart}"></span> ] item(s), with total price [ $
+        <!-- [1] will have at least one digit before the decimal point-->
+        <!-- [2] the number will have exactly two digits after the decimal point-->
+        <span style="font-weight:bold;" th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}"></span> ]
+    </p>
+
+<!--
+ <a th:href = "@{/image/productDetails?id={id}(id=${p.id})}" class = "btn btn-danger">Photo</a>
+-->
+
+<section id="products">
+    <div class="container">
+        <!-- Product cards will be dynamically added here -->
+        <div class="product" th:each = "i : ${shoppingCart}">
+            <img th:src = "${'./images/'+i.img}" alt="Product image">
+            <div class="product-content">
+                <h3 th:text = "${i.productName}"></h3>
+                <p th:text = "${i.price}"></p>
+
+                <br>
+                <a th:href = "@{/shoppingCart/{id}(id=${i.id})}" class = "btn btn-danger">
+                    <button class="remove-btn" style="background-color: maroon">Remove</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

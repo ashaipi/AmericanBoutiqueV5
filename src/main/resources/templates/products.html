@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="../static/css/MainStyles.css" th:href="@{/css/MainStyles.css}" rel="stylesheet" />
+    <link href="../static/css/MainStyles.css" th:href="@{/css/ProductStyles.css}" rel="stylesheet" />
+
+    <title>Product: American Boutique</title>
+
+</head>
+<body>
+    <header>
+        American Boutique
+    </header>
+    <nav id="nav">
+        <a th:href="@{/logout}">Sign-out</a>
+        <a th:href = "@{/products/new}">Add Product</a>
+    </nav>
+    <br>
+
+    <!--
+     <a th:href = "@{/image/productDetails?id={id}(id=${p.id})}" class = "btn btn-danger">Photo</a>
+    -->
+
+    <section id="products">
+        <div class="container">
+            <!-- Product cards will be dynamically added here -->
+            <div class="product" th:each = "p : ${products}">
+                <img th:src = "${'./images/'+p.img}" alt="Product image">
+                <div class="product-content">
+                    <h3 th:text = "${p.productName}"></h3>
+                    <p th:text = "${p.price}"></p>
+
+                    <a th:href = "@{/products/edit/{id}(id=${p.id})}" class = "btn btn-primary">
+                        <button class="remove-btn">Update</button>
+                    </a>
+                    <br>
+                    <a th:href = "@{/products/{id}(id=${p.id})}" class = "btn btn-danger">
+                        <button class="remove-btn" style="background-color: maroon">Delete</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

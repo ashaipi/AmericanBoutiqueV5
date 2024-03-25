@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- This for font -->
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+
+    <link href="../static/css/MainStyles.css" th:href="@{/css/MainStyles.css}" rel="stylesheet" />
+    <link href="../static/css/HomeStyles.css" th:href="@{/css/HomeStyles.css}" rel="stylesheet" />
+
+    <title>Home: American Boutique</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fde0dc; /* Light pink background color */
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <div>
+            <a class="menu-logo" href="#">American Boutique</a>
+        </div>
+        <div>
+            <a th:href="@{/shoppingCart}" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="gold">
+                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1M8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
+                </svg>
+                <span th:text="${totalInCart}" style="color: white;" class="translate-middle badge rounded-pill bg-danger">
+            </span>
+            </a>
+
+            <a id="cart">
+                <span style="color: palevioletred" th:text="${userName}"></span>
+            </a>
+
+            <a class="account" th:href="@{/login}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16" fill="gold">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                </svg>
+            </a>
+        </div>
+    </nav>
+
+<header>
+    <div class="font-sample">
+        <!-- American Boutique -->
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../static/images/2.jpg" th:src="@{/images/2.jpg}" class="img-banner" alt="image1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>American Boutique</h5>
+                        <p style="font-family: 'Arial', cursive;">THE TOP IT OFF EVENT UP TO 75% OFF SUITS & SPORTCOATS</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./images/3.jpg" th:src="@{/images/3.jpg}"  class="img-banner" alt="image2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>American Boutique</h5>
+                        <p style="font-family: 'Arial',serif; color: #000000;">The Spring Style EVENT 40% OFF</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./images/5.jpg" th:src="@{/images/5.jpg}"  class="img-banner" alt="image3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>American Boutique</h5>
+                        <p style="font-family: 'Arial',serif; color: #000000;">FREE SHIPPING ON ORDERS OVER %80</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div>
+    <nav class="menu">
+        <div style="width: 30%;">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+        </div>
+        <div style="width: 30%;">
+            <a href="#">American Boutique</a>
+        </div>
+        <div style="width: 30%;">
+            <a href="#">Contact Us</a>
+            <a href="#">About Us</a>
+        </div>
+    </nav>
+</div>
+
+<!-- Sliding Image -->
+
+<section>
+    <div class="products-container">
+        <div class="product" th:each = "p : ${products}">
+            <img th:src = "${'./images/'+p.img}" alt="Product image">
+            <h3 th:text = "${p.productName}"></h3>
+            <p th:text = "${'$'+p.price}"></p>
+            <!--
+            <button onclick="addToCart('${p.productName}', '${p.price}', '${p.img}')">Add to Cart</button>
+            -->
+            <form id="addToCartForm" th:action="@{/addToCart}" th:object="${p}" method="post">
+                <input type="hidden" id="productId" name="id" th:value="${p.id}">
+                <input type="hidden" id="productName" name="productName" th:value="${p.productName}">
+                <input type="hidden" id="price" name="price" th:value="${p.price}">
+                <input type="hidden" id="img" name="img" th:value="${p.img}">
+                <button type="submit" onclick="addToCart()">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <p>&copy; 2024 <span style="font-family: 'Parisienne',serif; font-size: 20px;">American Boutique</span></p>
+    </footer>
+
+    <script type="text/javascript" th:src="@{/js/homeActions.js}"></script>
+
+</body>
+</html>

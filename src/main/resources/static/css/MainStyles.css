@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fde0dc; /* Light pink background color */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+header{
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+    font-family: Parisienne,serif;
+    color: gold;
+    font-size: 50px;
+    margin: auto auto 0px;
+}
+nav {
+    background-color: #555;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}

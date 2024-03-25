@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="ISO-8859-1">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+
+        <title>Place Order: American Boutique</title>
+
+        <link href="../static/css/MainStyles.css" th:href="@{/css/PlaceOrderStyles.css}" rel="stylesheet" />
+
+    </head>
+    <body>
+        <header>
+            American Boutique
+        </header>
+        <nav id="nav">
+            <a th:href="@{/home}">Home</a>
+        </nav>
+        <br>
+
+        <div class="row">
+            <div class="col" style="text-align: center;">
+                <p>FREE Standard Shipping on orders $150+</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-5">
+                <h3></h3>
+            </div>
+            <div class="col-3"></div>
+            <div class="col-2"></div>
+        </div>
+
+        <form th:action="@{/placeOrder}" th:object="${userInfo}" method="POST">
+        <div class="row">
+
+            <div class="col-2"></div>
+            <div class="col-5">
+                <div class="col" id="container" >
+                    <!-- Items Show Here -->
+                    <div id="product">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <div class="container">
+                                    <h2>Shipping information</h2>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="firstName"
+                                                       placeholder="First Name" th:value="${firstName}" disabled>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="lastName"
+                                                       placeholder="Last Name" th:value="${lastName}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="address1"
+                                                       placeholder="Address 1" th:field="*{address1}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="address2"
+                                                       placeholder="Address 2" th:field="*{address2}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="city" placeholder="City"
+                                                       th:field="*{city}">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <input type="text" class="form-control" id="zip" placeholder="Zip Code"
+                                                       th:field="*{zipCode}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <select id="state" class="form-control">
+                                                    <option selected>Massachusetts</option>
+                                                    <!-- Add state options here -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <select class="custom-select" id="areaCode">
+                                                            <option selected>1</option>
+                                                            <!-- Add area code options here -->
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="phone"
+                                                           placeholder="Phone Number" th:field="*{phone}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="email" class="form-control" id="email" placeholder="Email"
+                                                       th:value="${email}" disabled>
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </tr>
+                            <tr>
+                                <br>
+                                <div class="container">
+                                    <h2>Billing Information</h2>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="cardHolderName"
+                                                   placeholder="Cardholder Name" th:field="*{cardholderName}">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <input type="text" class="form-control" id="cardNumber"
+                                                       placeholder="Card Number" th:field="*{cardNumber}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control" id="expiryDate"
+                                                       placeholder="MM/YY" th:field="*{expiredDate}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control" id="cvv"
+                                                       placeholder="CVV" th:field="*{cvv}">
+                                            </div>
+                                        </div>
+
+                                </div>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-3" >
+
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th colspan="2"><h3>Order Summary</h3></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(totalPrice, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td style="color: rgb(201, 0, 0);">Discounts</td>
+                        <td style="color: rgb(201, 0, 0);" th:text="${'$'+#numbers.formatDecimal(discount, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(shipping, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td>Tax</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(tax, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Estimated Total</h5></td>
+                        <td><h5 th:text="${'$'+#numbers.formatDecimal(estimatedTotal, 1, 2)}">$55.00</h5></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a th:href = "@{orderShipped}">
+                    <button id="checkout" type="submit">PLACE ORDER</button>
+                </a>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        </form>
+
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4"></div>
+        </div>
+    </body>
+</html>

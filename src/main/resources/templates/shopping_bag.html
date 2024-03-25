@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Shopping Bag: American Boutique</title>
+
+    <link href="../static/css/MainStyles.css" th:href="@{/css/ShoppingBagStyles.css}" rel="stylesheet" />
+
+</head>
+<body>
+    <header>
+        American Boutique
+    </header>
+    <nav id="nav">
+        <a th:href="@{/home}">Home</a>
+    </nav>
+    <br>
+
+    <div class="row">
+        <div class="col" style="text-align: center;">
+            <p>FREE Standard Shipping on orders $150+</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-5">
+            <h3>Your Shopping Bag (<span th:text = "${totalInCart}"></span>)</h3>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-5">
+            <div class="col" id="container" th:each = "i : ${orderProducts}">
+                <!-- Items Show Here -->
+                <div id="product">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th id="c1"><img th:src = "${'./images/'+i.img}" alt="Product image"></th>
+                            <th id="c2">
+                                <h3 th:text = "${i.productName}"></h3>
+                                <h5 th:text = "${i.description}"></h5>
+                            </th>
+                            <th id="c3">
+                                <p th:text = "${'$'+i.price}"></p>
+
+                                <a th:href="@{/shoppingCart/deleteItem(id=${i.id}, index=${orderProducts})}">
+                                <!-- <a th:href = "@{/orderProducts/{id}(id=${i.id})}"> -->
+                                    <button class="remove-btn">Remove</button>
+                                </a>
+
+
+
+                                <!--
+                                <form th:action="@{/shoppingCart1}" th:object="${i}" method="post">
+                                    <input type="hidden" id="id" name="id" th:value="${i.id}">
+                                    <button type="submit" >Remove</button>
+                                </form>
+                                -->
+
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-3" >
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th colspan="2"><h3>Order Summary</h3></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(totalPrice, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td style="color: rgb(201, 0, 0);">Discounts</td>
+                        <td style="color: rgb(201, 0, 0);" th:text="${'$'+#numbers.formatDecimal(discount, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(shipping, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td>Tax</td>
+                        <td th:text="${'$'+#numbers.formatDecimal(tax, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Estimated Total</h5></td>
+                        <td><h5 th:text="${'$'+#numbers.formatDecimal(estimatedTotal, 1, 2)}">$55.00</h5></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a th:href = "@{placeOrder}">
+                    <button id="checkout" type="submit">CHECKOUT</button>
+                </a>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"></div>
+    </div>
+</body>
+</html>
