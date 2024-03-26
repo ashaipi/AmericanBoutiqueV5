@@ -17,17 +17,17 @@ import java.util.List;
 @Controller
 public class ShoppingCartController {
 
-    @Autowired
-    private UserService userService;
-
+    private UserServiceImpl userServiceImpl;
     private final OrderServiceImpl orderServiceImpl;
     private final ProductService productService;
 
     @Autowired
     public ShoppingCartController(OrderServiceImpl orderServiceImpl,
-                                  ProductService productService) {
+                                  ProductService productService,
+                                  UserServiceImpl userServiceImpl) {
         this.orderServiceImpl = orderServiceImpl;
         this.productService = productService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     // add chosen product to shopping bag
@@ -49,7 +49,7 @@ public class ShoppingCartController {
         // shoppingCartService.addToCart(p.getProductName(), p.getDescription(), p.getPrice(), p.getImg());
 
         // find user id
-        User user = userService.findByEmail(authentication.getName());
+        User user = userServiceImpl.findByEmail(authentication.getName());
         System.out.println("------------> User Name: "+user.getFirstName());
         Orders orders = new Orders();
         orders.setUser(user);
@@ -87,7 +87,7 @@ public class ShoppingCartController {
         //model.addAttribute("shoppingCart", shoppingCartService.getAllItemsInCart());
 
         // find user id
-        User user = userService.findByEmail(authentication.getName());
+        User user = userServiceImpl.findByEmail(authentication.getName());
         System.out.println("------------> User Name: "+user.getFirstName());
 
         // filter order in shopping bag by user id
@@ -106,8 +106,6 @@ public class ShoppingCartController {
             System.out.println(ordersList.get(i).getId()+" <----------> "+ ordersList.get(i).getProduct().getProductName());
             System.out.println(orderProducts.get(i).getId()+" <----------> "+ orderProducts.get(i).getProductName());
         }
-
-
 
         // sen the bag object to Shopping bag page
         model.addAttribute("orderProducts", orderProducts);

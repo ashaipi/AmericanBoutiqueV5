@@ -3,9 +3,7 @@ package com.AmericanBoutique.controller;
 import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.model.UserInformation;
-import com.AmericanBoutique.service.ShoppingCartService;
-import com.AmericanBoutique.service.UserInformationServiceImpl;
-import com.AmericanBoutique.service.UserService;
+import com.AmericanBoutique.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,22 +16,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class UserInfoController {
 
-    @Autowired
     private UserInformationServiceImpl userInformationServiceImpl;
+    private UserServiceImpl userServiceImpl;
+    private OrderServiceImpl orderServiceImpl;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ShoppingCartService shoppingCartService;
-
-    @Autowired
-    public UserInfoController(UserInformationServiceImpl userInformationServiceImpl) {
+    public UserInfoController(UserInformationServiceImpl userInformationServiceImpl,
+                              OrderServiceImpl orderServiceImpl,
+                              UserServiceImpl userServiceImpl) {
         this.userInformationServiceImpl = userInformationServiceImpl;
+        this.orderServiceImpl = orderServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     // Add new product
@@ -44,17 +42,23 @@ public class UserInfoController {
         UserInformation userInfo =new UserInformation();
         model.addAttribute("userInfo", userInfo);
         //---------------------------------------------------------
-        User existing = userService.findByEmail(authentication.getName());
+        User existing = userServiceImpl.findByEmail(authentication.getName());
         model.addAttribute("firstName",existing.getFirstName());
         model.addAttribute("lastName",existing.getLastName());
         model.addAttribute("email",existing.getEmail());
 
-        //int totalInCart=100;
-        int totalInCart = shoppingCartService.getTotalInCart();
-        //System.out.println(totalInCart);
+        // find user id
+        User user = userServiceImpl.findByEmail(authentication.getName());
+        // filter order in shopping bag by user id
+        List<Product> orderProducts = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
+
+        int totalInCart = orderProducts.size();
         model.addAttribute("totalInCart",totalInCart);
 
-        double totalPrice = shoppingCartService.getTotalPriceInCart();
+        double totalPrice=0.0;
+        for(Product item : orderProducts){
+            totalPrice+=item.getPrice();
+        }
         model.addAttribute("totalPrice",totalPrice);
 
         double discount=0.;
@@ -83,7 +87,7 @@ public class UserInfoController {
     public String saveUserInfo(@ModelAttribute("userInfo") UserInformation userInfo, Authentication authentication) {
         System.out.println("-[3]---> UserInfoController class - saveProduct() method - Endpoint(/products) - EndPoint(redirect:/products)");
 
-        User existing = userService.findByEmail(authentication.getName());
+        User existing = userServiceImpl.findByEmail(authentication.getName());
 
         userInformationServiceImpl.saveUserInfo(userInfo,authentication);
         return "redirect:/orderShipped";
@@ -94,7 +98,7 @@ public class UserInfoController {
 
         int  shipAfterDays = 10;  // Days add to existing date for Expected Shipping Day
 
-        User existing = userService.findByEmail(authentication.getName());
+        User existing = userServiceImpl.findByEmail(authentication.getName());
         model.addAttribute("firstName",existing.getFirstName());
 
         model.addAttribute("address","39 Spring Ln, Sharon, MA 02067 ");

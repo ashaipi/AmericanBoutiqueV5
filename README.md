@@ -19,7 +19,7 @@ MySQL: Relational database management system.
 HTML/CSS: Frontend technologies for building user interfaces.
 Bootstrap: Frontend framework for building responsive and mobile-first websites.
 ## Installation
-Clone the repository to your local machine: git clone <repository-url>
+Clone the repository to your local machine: git clone <https://github.com/ashaipi/AmericanBoutiqueV5/blob/acbde9cb47202bd4ab9f2006cf065f37bd5d14cb/README.md>
 Set up the MySQL database and configure the database connection in the application.properties file.
 Run the application using Maven: mvn spring-boot:run
 Access the application in your web browser at http://localhost:8080.
