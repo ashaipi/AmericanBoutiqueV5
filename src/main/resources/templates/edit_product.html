@@ -4,26 +4,24 @@
     <meta charset="ISO-8859-1">
     <title>UpdateProduct: American Boutique</title>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
-    <link href="../static/css/MainStyles.css" th:href="@{/css/MainStyles.css}" rel="stylesheet" />
-    <link href="../static/css/LoginStyles.css" th:href="@{/css/LoginStyles.css}" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="../static/css/MainStyles.css" th:href="@{/css/PlaceOrderStyles.css}" rel="stylesheet" />
 
     <style>
-        .create-container {
-            margin: auto;
-            text-align: center;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 450px;
-            height: 450px;
+        /* Override the default focus outline color */
+        .form-control:focus {
+            border-color: #333333;
+            box-shadow: 0 0 0 0.25rem rgba(214, 52, 132, 0.25); /* Adjust the box shadow color */
         }
 
-        .form-group {
-            margin: auto;
-            text-align: left;
-            color: grey;
-            border-radius: 5px;
+        /* Optional: Remove the blue box shadow on focus */
+        .form-control:focus:not(:focus-visible) {
+            box-shadow: none;
         }
     </style>
 
@@ -38,38 +36,410 @@
     </nav>
     <br>
 
-    <div class = "create-container">
-        <h1 class = "text-center"> Update Product </h1>
-        <form th:action="@{/products/{id} (id=${product.id})}" th:object = "${product}" method="POST">
-            <div class ="form-group">
-                <label>Product Name</label>
-                <input type = "text" name = "productName" class = "text-control"
-                        th:field = "*{productName}" placeholder="Enter Product Name"/>
-            </div>
-
-            <div class ="form-group">
-                <label>Product Price</label>
-                <input type = "text" name = "price" class = "text-control"
-                        th:field = "*{price}" placeholder="Enter Product Price"/>
-            </div>
-
-            <div class ="form-group">
-                <label>Product Image</label>
-                <input type = "text" name = "img" class = "text-control"
-                       th:field = "*{img}" placeholder="Enter Product Image [ImageName.ImageExtension] EX: img.jpeg"/>
-            </div>
-
-            <div class ="form-group">
-                <label>Product Description</label>
-                <textarea type = "text" name = "description" class = "text-control"
-                          th:field = "*{description}" placeholder="Enter Product Description">
-                    </textarea >
-             </div>
-
-            <div class = "box-footer">
-                <button type="submit" id="btn1">Submit</button>
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-5">
+            <h3></h3>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-2"></div>
     </div>
+
+    <form th:action="@{/products/{id} (id=${product.id})}" th:object = "${product}" method="POST">
+        <div class="row">
+
+            <div class="col-2"></div>
+            <div class="col-5">
+                <div class="col" id="container" >
+                    <!-- Items Show Here -->
+                    <div id="product">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <div class="container">
+                                    <h2>Update Product</h2>
+
+                                    <div class="row">
+
+                                        <div class="col-md-9">
+                                            <label for="productName">Product Name</label>
+                                            <input type = "text" name = "productName" class="form-control" id="productName"
+                                                   th:field = "*{productName}" placeholder="Enter Product Name"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="productDiscount">Product Discount</label>
+                                            <input type = "text" name = "productDiscount" class="form-control" id="productDiscount"
+                                                   placeholder="Enter Product Discount"/>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="price">Product Price</label>
+                                            <input type = "text" name = "price" class="form-control" id="price"
+                                                   th:field = "*{price}" placeholder="Enter Product Price"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="quantity">Quantity</label>
+                                            <input type="text" name="quantity" class="form-control" id="quantity"
+                                                   th:field = "*{stockQuantity}" placeholder="Quantity">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="color">Color</label>
+                                            <select id="color" name="color" class="form-control">
+
+                                                <option>Red</option>
+                                                <option>Blue</option>
+                                                <option selected>Green</option>
+                                                <option>Yellow</option>
+                                                <option>Orange</option>
+                                                <option>Purple</option>
+                                                <option>Pink</option>
+                                                <option>Brown</option>
+                                                <option>Black</option>
+                                                <option>White</option>
+                                                <option>Gray</option>
+                                                <option>Beige</option>
+                                                <option>Navy</option>
+                                                <option>Teal</option>
+                                                <option>Maroon</option>
+                                                <option>Olive</option>
+                                                <option>Cream</option>
+                                                <option>Silver</option>
+                                                <option>Gold</option>
+                                                <option>Burgundy</option>
+                                                <option>Turquoise</option>
+                                                <option>Lavender</option>
+                                                <option>Magenta</option>
+                                                <option>Coral</option>
+                                                <option>Indigo</option>
+                                                <option>Khaki</option>
+                                                <option>Periwinkle</option>
+                                                <option>Slate</option>
+                                                <option>Charcoal</option>
+                                                <option>Amber</option>
+                                                <option>Crimson</option>
+                                                <option>Rust</option>
+                                                <option>Steel</option>
+                                                <option>Mint</option>
+                                                <option>Salmon</option>
+                                                <option>Tan</option>
+                                                <option>Plum</option>
+                                                <option>Mustard</option>
+                                                <option>Denim</option>
+                                                <option>Violet</option>
+                                                <option>Emerald</option>
+                                                <option>Forest Green</option>
+                                                <option>Sapphire</option>
+                                                <option>Chocolate</option>
+                                                <option>Champagne</option>
+                                                <option>Ivory</option>
+                                                <option>Lilac</option>
+                                                <option>Brick</option>
+                                                <option>Peach</option>
+                                                <option>Smoke</option>
+                                                <option>Scarlet</option>
+                                                <option>Coal</option>
+                                                <option>Wine</option>
+                                                <option>Azure</option>
+                                                <option>Royal Blue</option>
+                                                <option>Mauve</option>
+                                                <option>Orchid</option>
+                                                <option>Ruby</option>
+                                                <option>Pearl</option>
+                                                <option>Lemon</option>
+                                                <option>Amethyst</option>
+                                                <option>Sienna</option>
+                                                <option>Bronze</option>
+                                                <option>Electric Blue</option>
+                                                <option>Apricot</option>
+                                                <option>Topaz</option>
+                                                <option>Chartreuse</option>
+                                                <option>Pumpkin</option>
+                                                <option>Brass</option>
+                                                <option>Almond</option>
+                                                <option>Bisque</option>
+                                                <option>Opal</option>
+                                                <option>Cobalt</option>
+                                                <option>Neon</option>
+                                                <option>Merlot</option>
+                                                <option>Stone</option>
+                                                <option>Gunmetal</option>
+                                                <option>Pewter</option>
+                                                <option>Denim Blue</option>
+                                                <option>Turmeric</option>
+                                                <option>Platinum</option>
+                                                <option>Peacock</option>
+                                                <option>Velvet</option>
+                                                <option>Heather</option>
+                                                <option>Slate Blue</option>
+                                                <option>Clay</option>
+                                                <option>Carnation</option>
+                                                <option>Juniper</option>
+                                                <option>Seafoam</option>
+                                                <option>Tomato</option>
+                                                <option>Steel Blue</option>
+                                                <option>Marigold</option>
+                                                <option>Pine</option>
+                                                <option>Goldenrod</option>
+                                                <option>Thistle</option>
+                                                <option>Honey</option>
+                                                <option>Persimmon</option>
+                                                <option>Raspberry</option>
+                                                <option>Bubblegum</option>
+                                                <option>Magenta</option>
+                                                <option>Blush</option>
+                                                <option>Flamingo</option>
+                                                <option>Sand</option>
+                                                <option>Cinnamon</option>
+                                                <option>Moss</option>
+                                                <option>Lavender</option>
+                                                <option>Peony</option>
+                                                <option>Amber</option>
+                                                <option>Sienna</option>
+                                                <option>Brick Red</option>
+                                                <option>Evergreen</option>
+                                                <option>Stone Grey</option>
+                                                <option>Cherry</option>
+                                                <option>Shadow</option>
+                                                <option>Indigo</option>
+                                                <option>Wheat</option>
+                                                <option>Mint Green</option>
+                                                <option>Taupe</option>
+                                                <option>Claret</option>
+                                                <option>Cedar</option>
+                                                <option>Ice Blue</option>
+                                                <option>Sable</option>
+                                                <option>Carnation Pink</option>
+                                                <option>Banana</option>
+                                                <option>Poppy</option>
+                                                <option>Dijon</option>
+                                                <option>Chocolate Brown</option>
+                                                <option>Heather Grey</option>
+                                                <option>Tangerine</option>
+                                                <option>Brick</option>
+                                                <option>Cloud</option>
+                                                <option>Almond</option>
+                                                <option>Ecru</option>
+                                                <option>Pine Green</option>
+                                                <option>Spice</option>
+                                                <option>Terra Cotta</option>
+                                                <option>Lemon Yellow</option>
+                                                <option>Steel Grey</option>
+                                                <option>Granite</option>
+                                                <option>Graphite</option>
+                                                <option>Rustic</option>
+                                                <option>Pear</option>
+                                                <option>Beet</option>
+                                                <option>Cornflower Blue</option>
+                                                <option>Pumpkin Spice</option>
+                                                <option>Vanilla</option>
+                                                <option>Buff</option>
+                                                <option>Holly</option>
+                                                <option>Heather Blue</option>
+                                                <option>Fawn</option>
+                                                <option>Mocha</option>
+                                                <option>Adobe</option>
+                                                <option>Driftwood</option>
+                                                <option>Flax</option>
+                                                <option>Tan</option>
+                                                <option>Fuchsia</option>
+                                                <option>Rose Gold</option>
+                                                <option>Denim</option>
+                                                <option>Cherry Red</option>
+                                                <option>Copper</option>
+                                                <option>Pewter</option>
+                                                <option>Sea Green</option>
+                                                <option>Mist</option>
+                                                <option>Ocean</option>
+                                                <option>Pastel</option>
+                                                <option>Cotton Candy</option>
+                                                <option>Paradise</option>
+                                                <option>Shamrock</option>
+                                                <option>Blueberry</option>
+                                                <option>Lime</option>
+                                                <option>Mulberry</option>
+                                                <option>Lemonade</option>
+                                                <option>Lilypad</option>
+                                                <option>Butter</option>
+                                                <option>Pomegranate</option>
+                                                <option>Hibiscus</option>
+                                                <option>Sky Blue</option>
+                                                <option>Blush Pink</option>
+                                                <option>Chocolate</option>
+                                                <option>Midnight</option>
+                                                <option>Olive Green</option>
+                                                <option>Heather Green</option>
+                                                <option>Tawny</option>
+                                                <option>Sunflower</option>
+                                                <option>Auburn</option>
+                                                <option>Bronze</option>
+                                                <option>Champagne</option>
+                                                <option>Sandstone</option>
+                                                <option>Tangerine</option>
+                                                <option>Ruby Red</option>
+                                                <option>Carnation</option>
+                                                <option>Thistle</option>
+                                                <option>Amethyst</option>
+                                                <option>Granite</option>
+                                                <option>Pewter</option>
+                                                <option>Shadow</option>
+                                                <option>Mauve</option>
+                                                <option>Lavender</option>
+                                                <option>Periwinkle</option>
+                                                <option>Coral</option>
+                                                <option>Teal</option>
+                                                <option>Merlot</option>
+                                                <option>Royal Blue</option>
+                                                <option>Pumpkin</option>
+                                                <option>Mustard</option>
+                                                <option>Burgundy</option>
+                                                <option>Charcoal</option>
+                                                <option>Crimson</option>
+                                                <option>Steel</option>
+                                                <option>Tan</option>
+                                                <option>Lilac</option>
+                                                <option>Smoke</option>
+                                                <option>Azure</option>
+                                                <option>Plum</option>
+                                                <option>Topaz</option>
+                                                <option>Chartreuse</option>
+                                                <option>Apricot</option>
+                                                <option>Electric Blue</option>
+                                                <option>Brass</option>
+                                                <option>Scarlet</option>
+                                                <option>Brick</option>
+                                                <option>Sapphire</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="size">Size</label>
+                                            <select id="size" name="size" class="form-control">
+                                                <option>Small</option>
+                                                <option>Medium</option>
+                                                <option selected>Large</option>
+                                                <option>Extra Large</option>
+                                                <option>Extra Small</option>
+                                                <option>XXS</option>
+                                                <option>XS</option>
+                                                <option>S</option>
+                                                <option>M</option>
+                                                <option>L</option>
+                                                <option>XL</option>
+                                                <option>XXL</option>
+                                                <option>3XL</option>
+                                                <option>4XL</option>
+                                                <option>5XL</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <label>Product Image</label>
+                                            <input type="file" id="fileInput" name="img" class="form-control"
+                                                   th:value="*{img}" accept="image/*" required>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="barcode">Barcode Number</label>
+                                            <input type="text" class="form-control" id="barcode"
+                                                   placeholder="Barcode Number">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="description">Product Description</label>
+                                            <textarea name = "description" class="form-control" id="description"
+                                                      th:field = "*{description}" placeholder="Enter Product Description">
+                                            </textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="productNote">NOTE</label>
+                                            <textarea name = "productNote" class="form-control" id="productNote"
+                                                      placeholder="Other Notes">
+                                            </textarea >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <a th:href = "@{orderShipped}">
+                                            <button id="checkout" type="submit">SAVE</button>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-3" >
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <h2>Product Image</h2>
+                        <th colspan="2">
+                            <div style="display: none;" id="fileName"></div>
+                            <div id="preview"></div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"></div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        const preview = document.getElementById('preview');
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                fileNameDisplay.textContent = `Selected image: ${file.name}`;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    preview.innerHTML = `<img style="width: 100%;"  src="${imageUrl}" alt="Uploaded Image">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileNameDisplay.textContent = '';
+                preview.innerHTML = '';
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Handle file upload to server if needed
+            // For demonstration purpose, we're not handling server-side upload
+        });
+
+
+    </script>
+
 </body>
 </html>

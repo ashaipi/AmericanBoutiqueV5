@@ -5,10 +5,8 @@ import com.AmericanBoutique.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ProductController {
@@ -56,15 +54,20 @@ public class ProductController {
 
     // Update the product and save it to a database
     @PostMapping("/products/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute("product") Product product, Model model) {
-        System.out.println("-[4]---> ProductController class - updateProduct() method - Endpoint(/products/{id}) - Endpoint(redirect:/products)");
+    public String updateProduct(Model model,
+                                @PathVariable Long id,
+                                @ModelAttribute("product") Product product){
+        System.out.println("-[5]---> ProductController class - updateProduct() method - Endpoint(/products/{id}) - Endpoint(redirect:/products)");
+
+        System.out.println("---------------> IMAGE: "+product.getImg());
+
         // get product from a database by id
         Product existingProduct = productService.getProductById(id);
         existingProduct.setId(id);
         existingProduct.setProductName(product.getProductName());
-        existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setStockQuantity(product.getStockQuantity());
+        existingProduct.setDescription(product.getDescription());
         existingProduct.setImg(product.getImg());
 
         // save updated product object
@@ -75,7 +78,7 @@ public class ProductController {
     // handler method to handle delete product request
     @GetMapping("/products/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        System.out.println("-[5]---> ProductController class - deleteProduct() method - Endpoint(/products/{id}) - EndPoint(redirect:/products)");
+        System.out.println("-[6]---> ProductController class - deleteProduct() method - Endpoint(/products/{id}) - EndPoint(redirect:/products)");
         productService.deleteProductById(id);
         return "redirect:/products";
     }

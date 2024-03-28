@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>File Upload</title>
+</head>
+<body>
+<h1> hi </h1>
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+    <button type="submit">Upload</button>
+</form>
+</body>
+</html>

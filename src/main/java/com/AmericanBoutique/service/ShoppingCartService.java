@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class ShoppingCartService {
-    private ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Autowired
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository) {
