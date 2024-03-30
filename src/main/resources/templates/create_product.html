@@ -1,74 +1,198 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
 <head>
     <meta charset="ISO-8859-1">
-    <title>NewProduct: American Boutique</title>
+    <title>UpdateProduct: American Boutique</title>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Parisienne&family=Satisfy&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
-    <link href="../static/css/MainStyles.css" th:href="@{/css/MainStyles.css}" rel="stylesheet" />
-    <link href="../static/css/LoginStyles.css" th:href="@{/css/LoginStyles.css}" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="../static/css/MainStyles.css" th:href="@{/css/PlaceOrderStyles.css}" rel="stylesheet" />
 
     <style>
-        .create-container {
-            margin: auto;
-            text-align: center;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 450px;
-            height: 450px;
+        /* Override the default focus outline color */
+        .form-control:focus {
+            border-color: #333333;
+            box-shadow: 0 0 0 0.25rem rgba(214, 52, 132, 0.25); /* Adjust the box shadow color */
         }
 
-        .form-group {
-            margin: auto;
-            text-align: left;
-            color: grey;
-            border-radius: 5px;
+        /* Optional: Remove the blue box shadow on focus */
+        .form-control:focus:not(:focus-visible) {
+            box-shadow: none;
         }
     </style>
+
 </head>
 <body>
-    <header>
-        American Boutique
-    </header>
-    <nav id="nav">
-        <a th:href="@{/products}">Products</a>
-        <a th:href="@{/logout}">Sign-out</a>
-    </nav>
-    <br>
+<header>
+    American Boutique
+</header>
+<nav id="nav">
+    <a th:href="@{/products}">Products</a>
+    <a th:href="@{/logout}">Sign-out</a>
+</nav>
+<br>
 
-    <div class = "create-container">
-        <h1 class = "text-center"> Create New Product </h1>
-            <form th:action="@{/products}" th:object = "${product}" method="POST">
-                <div class ="form-group">
-                    <label>Product Name</label>
-                    <input type = "text" name = "productName" class = "text-control"
-                           th:field = "*{productName}" placeholder="Enter Product Name"/>
-                </div>
-
-                <div class ="form-group">
-                    <label>Product Price</label>
-                    <input type = "text" name = "price" class = "text-control"
-                           th:field = "*{price}" placeholder="Enter Product Price"/>
-                </div>
-
-                <div class ="form-group">
-                    <label>Product Image</label>
-                    <input type = "text" name = "img"
-                           th:field = "*{img}" class = "text-control" placeholder="Enter Product Image [ImageName.ImageExtension] EX: img.jpeg"/>
-                </div>
-
-                <div class ="form-group">
-                    <label>Product Description</label>
-                    <textarea type = "text" name = "description" class = "text-control"
-                              th:field = "*{description}" placeholder="Enter Product Description">
-                    </textarea >
-                </div>
-
-                <div class = "box-footer">
-                    <button type="submit" id="btn1">Submit</button>
-                </div>
-            </form>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-5">
+        <h3></h3>
     </div>
+    <div class="col-3"></div>
+    <div class="col-2"></div>
+</div>
+
+<form th:action="@{/products}" th:object = "${product}" method="POST">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-5">
+            <div class="col" id="container" >
+                <!-- Items Show Here -->
+                <div id="product">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <div class="container">
+                                <h2>Create New Product</h2>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <label for="productName">Product Name</label>
+                                        <input type = "text" name = "productName" class="form-control" id="productName"
+                                               th:field = "*{productName}" placeholder="Product Name"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="productDiscount">Product Discount</label>
+                                        <input type = "text" name = "productDiscount" class="form-control" id="productDiscount"
+                                               th:field = "*{discount}" placeholder="Discount"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="price">Product Price</label>
+                                        <input type = "text" name = "price" class="form-control" id="price"
+                                               th:field = "*{price}" placeholder="Product Price"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="quantity"
+                                               th:field = "*{stockQuantity}" placeholder="Quantity">
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="color">Color</label>
+                                        <select id="color" name="color" class="form-control">
+                                            <option th:each="c : ${colors}" th:text="${c.color}" th:selected="${product.color == c.color}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="size">Size</label>
+                                        <select id="size" name="size" class="form-control">
+                                            <option th:each="s : ${sizes}" th:text="${s.size}" th:selected="${product.size == s.size}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <label>Product Image</label>
+                                        <input type="file" id="fileInput" name="img" class="form-control"
+                                               th:value="*{img}" accept="image/*" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="barcode">Barcode Number</label>
+                                        <input type="text" class="form-control" id="barcode"
+                                               th:field = "*{barcode}" placeholder="Barcode Number">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="description">Product Description</label>
+                                        <textarea name = "description" class="form-control" id="description"
+                                                  th:field = "*{description}"
+                                                  placeholder="Product Description"></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="productNote">NOTE</label>
+                                        <textarea name = "productNote" class="form-control" id="productNote"
+                                                  th:field = "*{note}" placeholder="Other Notes"></textarea >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <a th:href = "@{orderShipped}">
+                                        <button id="checkout" type="submit">SAVE</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-3" >
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <h2>Product Image</h2>
+                    <th colspan="2">
+                        <div style="display: none;" id="fileName"></div>
+                        <div id="preview"></div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-8"></div>
+    <div class="col-4"></div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileName');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            fileNameDisplay.textContent = `Selected image: ${file.name}`;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageUrl = event.target.result;
+                preview.innerHTML = `<img style="width: 100%;"  src="${imageUrl}" alt="Uploaded Image">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            fileNameDisplay.textContent = '';
+            preview.innerHTML = '';
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Handle file upload to server if needed
+        // For demonstration purpose, we're not handling server-side upload
+    });
+
+
+</script>
+
 </body>
 </html>

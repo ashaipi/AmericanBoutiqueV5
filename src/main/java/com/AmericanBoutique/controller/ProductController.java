@@ -1,21 +1,34 @@
 package com.AmericanBoutique.controller;
 
+import com.AmericanBoutique.model.Color;
 import com.AmericanBoutique.model.Product;
+import com.AmericanBoutique.model.Size;
+import com.AmericanBoutique.service.ColorService;
 import com.AmericanBoutique.service.ProductService;
+import com.AmericanBoutique.service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
+    private final SizeService sizeService;
+    private final ColorService colorService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService,
+                             SizeService sizeService,
+                             ColorService colorService) {
         super();
         this.productService = productService;
+        this.sizeService = sizeService;
+        this.colorService = colorService;
     }
 
     // handler method to handle list products and return mode and view
@@ -33,6 +46,13 @@ public class ProductController {
         // create a product object to hold product form data
         Product product = new Product();
         model.addAttribute("product", product);
+
+        List<Size> sizes = sizeService.getAllSizes();
+        model.addAttribute("sizes", sizes);
+
+        List<Color> colors = colorService.getAllColors();
+        model.addAttribute("colors", colors);
+
         return "create_product";
     }
 
@@ -40,6 +60,7 @@ public class ProductController {
     @PostMapping("/products")
     public String saveProduct(@ModelAttribute("product") Product product) {
         System.out.println("-[3]---> ProductController class - saveProduct() method - Endpoint(/products) - EndPoint(redirect:/products)");
+
         productService.saveProduct(product);
         return "redirect:/products";
     }
@@ -48,7 +69,15 @@ public class ProductController {
     @GetMapping("/products/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         System.out.println("-[4]---> ProductController class - editProductForm() method - Endpoint(/products/edit/{id}) - HTML(edit_product)");
+
         model.addAttribute("product", productService.getProductById(id));
+
+        List<Size> sizes = sizeService.getAllSizes();
+        model.addAttribute("sizes", sizes);
+
+        List<Color> colors = colorService.getAllColors();
+        model.addAttribute("colors", colors);
+
         return "edit_product";
     }
 
@@ -65,10 +94,14 @@ public class ProductController {
         Product existingProduct = productService.getProductById(id);
         existingProduct.setId(id);
         existingProduct.setProductName(product.getProductName());
+        existingProduct.setDiscount(product.getDiscount());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setStockQuantity(product.getStockQuantity());
+        existingProduct.setColor(product.getColor());
+        existingProduct.setSize(product.getSize());
+        existingProduct.setBarcode(product.getBarcode());
         existingProduct.setDescription(product.getDescription());
-        existingProduct.setImg(product.getImg());
+        existingProduct.setNote(product.getNote());
 
         // save updated product object
         productService.updateProduct(existingProduct);

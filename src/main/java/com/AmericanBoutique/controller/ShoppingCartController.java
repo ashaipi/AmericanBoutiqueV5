@@ -79,10 +79,6 @@ public class ShoppingCartController {
 
         List<Orders> ordersList = orderServiceImpl.getAllOrders();
         System.out.println("#[1]##############> Size of orderList: "+ordersList.size());
-        System.out.println("#[3]##############> "+ordersList.get(0).getStatus());
-        for (int i = 0; i < ordersList.size(); i++) {
-            System.out.println("#[4]##############> orderList ID: "+ordersList.get(i).getId());
-        }
 
         //model.addAttribute("shoppingCart", shoppingCartService.getAllItemsInCart());
 
@@ -93,7 +89,7 @@ public class ShoppingCartController {
         // filter order in shopping bag by user id
         List<Product> orderProducts = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
         System.out.println("#[1]##############> "+orderProducts.size());
-        System.out.println("#[3]##############> "+orderProducts.get(0).getProductName());
+        //System.out.println("#[3]##############> "+orderProducts.get(0).getProductName());
 
         for (int i = 0; i < orderProducts.size(); i++) {
             // Covert from int to Long
@@ -112,9 +108,7 @@ public class ShoppingCartController {
 
         System.out.println("[1]-->"+orderServiceImpl.findJoinProductsUserAddToCart(user.getId()));
         System.out.println("[2]-->"+orderServiceImpl.findJoinProductsUserAddToCart(user.getId()).size());
-        System.out.println("[3]-->"+orderServiceImpl.findJoinProductsUserAddToCart(user.getId()).get(0));
-        System.out.println("[4]-->"+orderServiceImpl.findJoinProductsUserAddToCart(user.getId()).get(0).getProductName());
-        System.out.println("[5]-->"+orderServiceImpl.findJoinProductsUserAddToCart(user.getId()).get(0).getId());
+
 
         int totalInCart = orderProducts.size();
         System.out.println("----------------------> Total in Cart: "+totalInCart);

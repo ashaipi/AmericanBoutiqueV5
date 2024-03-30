@@ -20,10 +20,17 @@ public class Product {
 
     @Column(nullable = false)
     private String productName;
-    private String description;
     private double price;
+    private String size;
+    private String color;
     private int stockQuantity;
+    private double discount;
     private String img;
+    private String barcode;
+    private String description;
+    private String note;
+
+
 
     // Constructor
     public Product(String productName, String description, double price, int stockQuantity) {
