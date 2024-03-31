@@ -27,7 +27,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 //    @Query("DELETE FROM com.AmericanBoutique.model.Orders WHERE id = :i_d")
 //    void deleteOrderFromCart(Long i_d);
 
-    @Query("SELECT new com.AmericanBoutique.model.Product(p.id, p.productName, p.description, p.stockQuantity, p.img, p.price)\n" +
+    @Query("SELECT new com.AmericanBoutique.model.Product(p.id, p.productName, p.size, p.color, p.discount, " +
+            "p.description, p.stockQuantity, p.img, p.price)\n" +
             "FROM Product p\n" +
             "JOIN Orders o ON p.id = o.product.id\n" +
             "WHERE o.user.id = :userId")

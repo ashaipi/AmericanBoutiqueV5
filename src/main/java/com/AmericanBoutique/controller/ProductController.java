@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -99,6 +97,7 @@ public class ProductController {
         existingProduct.setStockQuantity(product.getStockQuantity());
         existingProduct.setColor(product.getColor());
         existingProduct.setSize(product.getSize());
+        existingProduct.setImg(product.getImg());
         existingProduct.setBarcode(product.getBarcode());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setNote(product.getNote());

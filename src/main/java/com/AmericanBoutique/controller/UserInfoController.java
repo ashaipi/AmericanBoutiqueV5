@@ -21,9 +21,9 @@ import java.util.List;
 @Controller
 public class UserInfoController {
 
-    private UserInformationServiceImpl userInformationServiceImpl;
-    private UserServiceImpl userServiceImpl;
-    private OrderServiceImpl orderServiceImpl;
+    private final UserInformationServiceImpl userInformationServiceImpl;
+    private final UserServiceImpl userServiceImpl;
+    private final OrderServiceImpl orderServiceImpl;
 
     @Autowired
     public UserInfoController(UserInformationServiceImpl userInformationServiceImpl,

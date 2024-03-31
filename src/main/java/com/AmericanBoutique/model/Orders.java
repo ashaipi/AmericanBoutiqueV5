@@ -17,11 +17,7 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-//    @Column(nullable = false)
     private String orderDate;
-
- //   @Column(nullable = false, columnDefinition ="processing")
     private String status;
 
     @ManyToOne(targetEntity = User.class)

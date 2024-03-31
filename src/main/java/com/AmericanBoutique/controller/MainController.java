@@ -5,7 +5,6 @@ import java.util.Collection;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.service.OrderServiceImpl;
 import com.AmericanBoutique.service.ProductService;
-import com.AmericanBoutique.service.ShoppingCartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,20 +20,19 @@ import com.AmericanBoutique.service.UserService;
 
 @Controller
 public class MainController {
-	
-	@Autowired
-	private UserService userService;
+
+	private final UserService userService;
+	private final OrderServiceImpl orderService;
+	private final ProductService productService;
 
 	@Autowired
-	private ShoppingCartService shoppingCartService;
-
-	@Autowired
-	private OrderServiceImpl orderService;
-	private ProductService productService;
-
-	public MainController(ProductService productService) {
+	public MainController(ProductService productService,
+						  OrderServiceImpl orderService,
+						  UserService userService) {
 		super();
 		this.productService = productService;
+		this.orderService = orderService;
+		this.userService = userService;
 	}
 
 	//
@@ -76,6 +74,7 @@ public class MainController {
 		return "redirect:/home";
 	}
 
+	// Home page
 	@GetMapping("/home")
 	public String home(Model model, Authentication authentication){
 		System.out.println("-[2]---> MainController class - home() method - Endpoint(/home) - HTML(home)");
@@ -94,6 +93,7 @@ public class MainController {
 		return "home";
 	}
 
+	// Sign in
     @GetMapping("/login")
     public String login(Model model) {
 		System.out.println("-[3]---> MainController class - login() method - Endpoint(/login) - HTML(login)");
@@ -106,6 +106,7 @@ public class MainController {
         return "user/index";
     }
 
+	// Sign out
     @ResponseBody
 	@GetMapping("/logoutSuccess")
     public String logoutResponse()

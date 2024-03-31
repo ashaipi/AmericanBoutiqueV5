@@ -1,44 +1,36 @@
 package com.AmericanBoutique.controller;
 
-import com.AmericanBoutique.Utils.HibernateUtil;
 import com.AmericanBoutique.model.Orders;
 import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.service.OrderServiceImpl;
-
 import com.AmericanBoutique.service.ProductServiceImpl;
 import com.AmericanBoutique.service.UserServiceImpl;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
-
-
 @Controller
 public class OrderController {
 
-    @Autowired
-    private OrderServiceImpl orderServiceImpl;
+    private final OrderServiceImpl orderServiceImpl;
+    private final ProductServiceImpl productService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    private ProductServiceImpl productService;
-
-    @Autowired
-    private UserServiceImpl userService;
+    public OrderController(UserServiceImpl userServiceImpl,
+                           ProductServiceImpl productService,
+                           OrderServiceImpl orderServiceImpl){
+        this.userServiceImpl = userServiceImpl;
+        this.productService = productService;
+        this.orderServiceImpl = orderServiceImpl;
+    }
 
     //@PostMapping("/orders")
     @RequestMapping(value = "/orders", method = {RequestMethod.GET, RequestMethod.POST})
     public String getProduct(Authentication authentication){
-        User user = userService.findByEmail(authentication.getName());
+        User user = userServiceImpl.findByEmail(authentication.getName());
         Product product = productService.getProductById(1L);
 
         System.out.println("------------> "+product.getProductName());
@@ -84,7 +76,6 @@ public class OrderController {
         //shoppingCartService.deleteItemInCartById(id);
         return "TEST";
     }
-
 
     // Define endpoints for managing orders
 

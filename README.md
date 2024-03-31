@@ -26,7 +26,7 @@ Order Placement: Users can place orders securely.
 ![img_10.png](img_10.png)
 
 ## Technologies Used
-- Java (JDK 21): Backend programming language.
+- Java (JDK 17): Backend programming language.
 - Spring Boot (3.0.4): Framework for building Java applications.
 - Thymeleaf (3.1.2): Java template engine for server-side rendering of HTML.
 - Hibernate (6.0.1): Object-relational mapping (ORM) framework for data persistence.

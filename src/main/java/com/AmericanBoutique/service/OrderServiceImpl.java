@@ -4,6 +4,7 @@ import com.AmericanBoutique.Utils.HibernateUtil;
 import com.AmericanBoutique.model.Orders;
 import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.ShoppingCart;
+import com.AmericanBoutique.repo.ProductRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,10 +22,13 @@ import java.util.Scanner;
 public class OrderServiceImpl implements OrderService{
 
     private OrderRepository orderRepository;
+    private ProductRepository productRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository){
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ProductRepository productRepository){
         super();
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
     // Implement methods for managing orders

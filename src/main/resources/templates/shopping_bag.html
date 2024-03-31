@@ -18,7 +18,7 @@
     </nav>
     <br>
 
-    <div class="row">
+    <div class="row" >
         <div class="col" style="text-align: center;">
             <p>FREE Standard Shipping on orders $150+</p>
         </div>
@@ -35,38 +35,42 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-5">
-            <div class="col" id="container" th:each = "i : ${orderProducts}">
+            <div class="col" id="container" th:each = "i : ${shoppingBag}">
                 <!-- Items Show Here -->
                 <div id="product">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th id="c1"><img th:src = "${'./images/'+i.img}" alt="Product image"></th>
-                            <th id="c2">
-                                <h3 th:text = "${i.productName}"></h3>
-                                <h5 th:text = "${i.description}"></h5>
-                            </th>
-                            <th id="c3">
-                                <p th:text = "${'$'+i.price}"></p>
-
-                                <a th:href="@{/shoppingCart/deleteItem(id=${i.id}, index=${orderProducts})}">
+                    <div class="outer_row row">
+                        <div class="col-3" id="cc1" rowspan="3"><img th:src = "${'./images/'+i.img}" alt="Product image"></div>
+                        <div class="col-7">
+                            <h4 th:text = "${i.productName}"></h4>
+                            <h6 th:text = "${i.description}"></h6>
+                            <div class="inner_row row" style="text-align: center">
+                                <div class="col-3"><h6>Size</h6></div>
+                                <div class="col-4"><h6>Color</h6></div>
+                                <div class="col-5" th:if="${i.discount>0}"></div>
+                            </div>
+                            <div class="inner_row row" style="text-align: center">
+                                <div class="col-3"><h6 th:text = "${i.size}"></h6></div>
+                                <div class="col-4"><h6 th:text = "${i.color}"></h6></div>
+                                <div class="col-5" style="color: #fc5b5b" th:if="${i.discount>0}"><h6 style="font-weight: bold;" th:text = "${#numbers.formatDecimal(i.discount,1,2)+'% OFF'}"></h6></div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div th:if="${i.discount>0}">
+                                <del><h6 style="text-align: right" th:text = "${'$'+i.price}"></h6></del>
+                                <h6 style="text-align: right" th:text = "${'$'+#numbers.formatDecimal(((i.price)-((i.discount/100)*(i.price))),1,2)}"></h6>
+                            </div>
+                            <div th:unless="${i.discount>0}">
+                                <h6 style="text-align: right" th:text = "${'$'+i.price}"></h6>
+                                <br>
+                            </div>
+                            <br>
+                            <a th:href="@{/shoppingCart/deleteItem(id=${i.id}, index=${shoppingBag})}">
                                 <!-- <a th:href = "@{/orderProducts/{id}(id=${i.id})}"> -->
-                                    <button class="remove-btn">Remove</button>
-                                </a>
+                                <button class="remove-btn">Remove</button>
+                            </a>
+                        </div>
+                    </div>
 
-
-
-                                <!--
-                                <form th:action="@{/shoppingCart1}" th:object="${i}" method="post">
-                                    <input type="hidden" id="id" name="id" th:value="${i.id}">
-                                    <button type="submit" >Remove</button>
-                                </form>
-                                -->
-
-                            </th>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -82,23 +86,23 @@
                     <tbody>
                     <tr>
                         <td>Subtotal</td>
-                        <td th:text="${'$'+#numbers.formatDecimal(totalPrice, 1, 2)}"></td>
+                        <td style="text-align: right" th:text="${'$'+#numbers.formatDecimal(totalPrice, 1, 2)}"></td>
                     </tr>
                     <tr>
                         <td style="color: rgb(201, 0, 0);">Discounts</td>
-                        <td style="color: rgb(201, 0, 0);" th:text="${'$'+#numbers.formatDecimal(discount, 1, 2)}"></td>
+                        <td style="color: rgb(201, 0, 0);text-align: right" th:text="${'$'+#numbers.formatDecimal(totalDiscount, 1, 2)}"></td>
                     </tr>
                     <tr>
                         <td>Shipping</td>
-                        <td th:text="${'$'+#numbers.formatDecimal(shipping, 1, 2)}"></td>
+                        <td style="text-align: right" th:text="${'$'+#numbers.formatDecimal(shipping, 1, 2)}"></td>
                     </tr>
                     <tr>
                         <td>Tax</td>
-                        <td th:text="${'$'+#numbers.formatDecimal(tax, 1, 2)}"></td>
+                        <td style="text-align: right" th:text="${'$'+#numbers.formatDecimal(tax, 1, 2)}"></td>
                     </tr>
                     <tr>
                         <td><h5>Estimated Total</h5></td>
-                        <td><h5 th:text="${'$'+#numbers.formatDecimal(estimatedTotal, 1, 2)}">$55.00</h5></td>
+                        <td><h5 style="text-align: right" th:text="${'$'+#numbers.formatDecimal(estimatedTotal, 1, 2)}">$55.00</h5></td>
                     </tr>
                     </tbody>
                 </table>

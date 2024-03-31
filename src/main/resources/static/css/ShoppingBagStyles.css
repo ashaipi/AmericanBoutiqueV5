@@ -41,16 +41,8 @@ header{
     width: 100%;
 }
 
-#product h3 {
-    margin: 5px 0;
-}
-
-#product p {
-    margin: 5px 0;
-}
-
 #product button {
-    width: 70%;
+    width: 100%;
     background-color: #333;
     color: #fff;
     padding: 5px 0;
@@ -65,6 +57,7 @@ header{
     padding: 5px 0;
     border-radius: 5px;
     cursor: pointer;
+
 }
 
 #checkout #product button:hover {
@@ -80,10 +73,20 @@ footer {
     width: 100%;
 }
 
-.row, .col{
+
+
+
+.outer_row{
+    width: 100%;
     border: 1px solid #ffffff;
-    border-right-color: #d9d9d9; /* Light gray color */
-    padding: 5px;
+    border-right-color: #d9d9d9;
+    border-bottom-color: #d9d9d9;
+    padding: 10px;
+}
+
+.inner_row{
+    width: 100%;
+    padding: 0px;
 }
 
 #c1{
