@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,14 +97,16 @@ public class PlaceOrderController {
         model.addAttribute("tax",tax);
         model.addAttribute("estimatedTotal",estimatedTotal);
 
-        // create a product object to hold product form data
-        PlaceOrder userInfo =new PlaceOrder();
-        model.addAttribute("userInfo", userInfo);
-        //---------------------------------------------------------
+        // Login user first name, last name, and user login email
         User existing = userServiceImpl.findByEmail(authentication.getName());
         model.addAttribute("firstName",existing.getFirstName());
         model.addAttribute("lastName",existing.getLastName());
         model.addAttribute("email",existing.getEmail());
+
+        // create a PlaceOrder object to hold User Shipping and Payment information form data
+        PlaceOrder userInfo =new PlaceOrder();
+        model.addAttribute("userInfo", userInfo);
+        //---------------------------------------------------------
 
         List<State> states = stateService.getAllStates();
         model.addAttribute("states", states);
@@ -113,12 +116,14 @@ public class PlaceOrderController {
 
     // Save user shipping and payment information to a database
     @PostMapping("/placeOrder")
-    public String saveUserInfo(@ModelAttribute("userInfo") PlaceOrder userInfo, Authentication authentication) {
+    public String saveUserInfo(@ModelAttribute("userInfo") PlaceOrder userInfo,
+                               Authentication authentication) {
         System.out.println("-[2]---> PlaceOrderController class - saveUserInfo() method - Endpoint(/placeOrder) - EndPoint(orderShipped)");
 
         User existing = userServiceImpl.findByEmail(authentication.getName());
+        userInfo.setUser(existing);
 
-        userInformationServiceImpl.saveUserInfo(userInfo,authentication);
+        userInformationServiceImpl.saveUserInfo(userInfo);
         return "redirect:/orderShipped";
     }
 

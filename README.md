@@ -20,7 +20,7 @@ Product management: Managers can add update delete products.
 Product Catalog: Users can browse through a catalog of available products.
 ![img_18.png](img_18.png)
 
-Shopping Bag: Users can add products to their shopping cart and manage their cart.
+Shopping Bag: Users can add products to their shopping bag and manage their bag.
 ![img_19.png](img_19.png)
 
 Order Placement: Users can place orders securely.
@@ -29,7 +29,7 @@ Order Placement: Users can place orders securely.
 ![img_21.png](img_21.png)
 
 ## Technologies Used
-- Java (JDK 17): Backend programming language.
+- Java (JDK 21): Backend programming language.
 - Spring Boot (3.0.4): Framework for building Java applications.
 - Thymeleaf (3.1.2): Java template engine for server-side rendering of HTML.
 - Hibernate (6.0.1): Object-relational mapping (ORM) framework for data persistence.

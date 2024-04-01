@@ -54,7 +54,7 @@ public class ProductController {
         return "create_product";
     }
 
-    // Save product to database
+    // Save new product to a database
     @PostMapping("/products")
     public String saveProduct(@ModelAttribute("product") Product product) {
         System.out.println("-[3]---> ProductController class - saveProduct() method - Endpoint(/products) - EndPoint(redirect:/products)");
@@ -63,7 +63,7 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    // Retrieve product from a database by id
+    // Retrieve product from a database by id - start update product information
     @GetMapping("/products/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         System.out.println("-[4]---> ProductController class - editProductForm() method - Endpoint(/products/edit/{id}) - HTML(edit_product)");

@@ -39,7 +39,8 @@ public class ShoppingCartController {
     //@PostMapping("/addToCart")
     @RequestMapping(value = "/addToCart", method = {RequestMethod.GET, RequestMethod.POST})
     @Transactional
-    public String addToCart(@RequestParam(name = "id") Long productId, Authentication authentication) {
+    public String addToCart(@RequestParam(name = "id") Long productId,
+                            Authentication authentication) {
         System.out.println("-[1]---> ShoppingCartController class - addToCart() method - Endpoint(/addToCart) - HTML(redirect:/home)");
 
         Product p = productService.getProductById(productId);
@@ -59,7 +60,7 @@ public class ShoppingCartController {
         } catch (Exception e) {
             // Log the exception or handle it appropriately
             //e.printStackTrace();
-            logger.error("An error occurred:", e);
+            logger.error("ShoppingCartController class - addToCart method: An error occurred:", e);
         }
 
         // Redirect the user to a confirmation page or back to the product page

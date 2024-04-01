@@ -74,18 +74,18 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="city">City</label>
-                                                <input type="text" class="form-control" id="city" placeholder="City"
-                                                       th:field="*{city}">
+                                                <input type="text" class="form-control" id="city"
+                                                       placeholder="City" th:field="*{city}">
                                             </div>
                                             <div class="form-group col-md-2">
                                                 <label for="zip">Zip Code</label>
-                                                <input type="text" class="form-control" id="zip" placeholder="Zip Code"
-                                                       th:field="*{zipCode}">
+                                                <input type="text" class="form-control" id="zip"
+                                                       placeholder="Zip Code" th:field="*{zipCode}">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="state">State</label>
-                                                <select id="state" class="form-control">
-                                                    <option th:each="s : ${states}" th:text="${s.state}" th:selected="${userInfo.state == s.state}"></option>
+                                                <select id="state" name="state" class="form-control">
+                                                    <option th:each="us : ${states}" th:text="${us.state}" th:selected="${userInfo.state == us.state}"></option>
                                                     <!-- Add state options here -->
                                                 </select>
                                             </div>
@@ -143,20 +143,15 @@
                                                        placeholder="CVV" th:field="*{cvv}">
                                             </div>
                                         </div>
-
                                 </div>
-
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
             <div class="col-3" >
-
                 <table class="table table-hover">
-
                     <thead>
                     <tr>
                         <th colspan="2"><h3>Order Summary</h3></th>
@@ -193,7 +188,6 @@
             <div class="col-2"></div>
         </div>
         </form>
-
         <div class="row">
             <div class="col-8"></div>
             <div class="col-4"></div>
