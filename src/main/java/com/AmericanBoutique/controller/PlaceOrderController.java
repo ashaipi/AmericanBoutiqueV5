@@ -1,8 +1,6 @@
 package com.AmericanBoutique.controller;
 
-import com.AmericanBoutique.model.Product;
-import com.AmericanBoutique.model.User;
-import com.AmericanBoutique.model.UserInformation;
+import com.AmericanBoutique.model.*;
 import com.AmericanBoutique.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,27 +17,87 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class UserInfoController {
+public class PlaceOrderController {
 
-    private final UserInformationServiceImpl userInformationServiceImpl;
+    private final StateService stateService;
+    private final PlaceOrderServiceImpl userInformationServiceImpl;
     private final UserServiceImpl userServiceImpl;
     private final OrderServiceImpl orderServiceImpl;
 
     @Autowired
-    public UserInfoController(UserInformationServiceImpl userInformationServiceImpl,
-                              OrderServiceImpl orderServiceImpl,
-                              UserServiceImpl userServiceImpl) {
+    public PlaceOrderController(PlaceOrderServiceImpl userInformationServiceImpl,
+                                OrderServiceImpl orderServiceImpl,
+                                UserServiceImpl userServiceImpl,
+                                StateService stateService) {
         this.userInformationServiceImpl = userInformationServiceImpl;
         this.orderServiceImpl = orderServiceImpl;
         this.userServiceImpl = userServiceImpl;
+        this.stateService = stateService;
     }
 
-    // Add new product
+    // PlaceOrder - Add new user shipping and payment information
     @GetMapping("/placeOrder")
     public String createUserInfo(Model model, Authentication authentication) {
-        System.out.println("-[2]---> UserInfoController class - createProductForm() method - Endpoint(/products/new) - HTML(create_product)");
+        System.out.println("-[1]---> PlaceOrderController class - createUserInfo() method - Endpoint(/placeOrder) - HTML(place_order)");
+
+        // to find the total in shopping bag
+        List<Orders> ordersList = orderServiceImpl.getAllOrders();
+        System.out.println("#[1.1]##############> Size of orderList: "+ordersList.size());
+
+        // find user id
+        User user = userServiceImpl.findByEmail(authentication.getName());
+        System.out.println("------------> User Name: "+user.getFirstName());
+
+        // filter order in shopping bag by user id
+        List<Product> shoppingBag = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
+        System.out.println("#[1.2]##############> Total in Shopping Bag: "+shoppingBag.size());
+
+        for (int i = 0; i < shoppingBag.size(); i++) {
+            // Covert from int to Long
+            System.out.println("#[1.3."+i+"]##############> Product ID: "+shoppingBag.get(i).getId());
+            Long newId = Long.parseLong(String.valueOf(ordersList.get(i).getId()));
+            shoppingBag.get(i).setId(newId);
+            System.out.println("#[1.3."+i+"]##############> Order ID:   "+shoppingBag.get(i).getId());
+        }
+
+        // Total number of products in Shopping Bag
+        int totalInCart = shoppingBag.size();
+
+        // Order Summary (in a right side of shoppingCart HTML page)
+        double totalPrice=0.0;
+        double totalDiscount = 0.0;
+        for(Product item : shoppingBag){
+            totalPrice+=item.getPrice();
+            totalDiscount+=(item.getDiscount()/100)*item.getPrice();
+        }
+        if(totalDiscount>0) totalDiscount*=-1;
+
+        double shipping=0.;
+        double tax=0.;
+        double freeShipping= 150;  // FREE Standard Shipping on orders $150+
+        double taxRate = 6./100.;  // tax rate for example 6%
+
+        if(totalInCart>0){
+            if(totalPrice<freeShipping) shipping=10.0;
+            tax=totalPrice*taxRate;
+        }
+
+        // Order Summary (in a right side of shoppingCart HTML page)
+        double estimatedTotal = totalPrice+totalDiscount+shipping+tax;
+
+        // Total products in a Shopping Bag
+        model.addAttribute("shoppingBag", shoppingBag);
+        // Shows Total number of products in Shopping Bag
+        model.addAttribute("totalInCart",totalInCart);
+        // Total price of products in Shopping Bag
+        model.addAttribute("totalPrice",totalPrice);
+        model.addAttribute("totalDiscount",totalDiscount);
+        model.addAttribute("shipping",shipping);
+        model.addAttribute("tax",tax);
+        model.addAttribute("estimatedTotal",estimatedTotal);
+
         // create a product object to hold product form data
-        UserInformation userInfo =new UserInformation();
+        PlaceOrder userInfo =new PlaceOrder();
         model.addAttribute("userInfo", userInfo);
         //---------------------------------------------------------
         User existing = userServiceImpl.findByEmail(authentication.getName());
@@ -47,45 +105,16 @@ public class UserInfoController {
         model.addAttribute("lastName",existing.getLastName());
         model.addAttribute("email",existing.getEmail());
 
-        // find user id
-        User user = userServiceImpl.findByEmail(authentication.getName());
-        // filter order in shopping bag by user id
-        List<Product> orderProducts = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
-
-        int totalInCart = orderProducts.size();
-        model.addAttribute("totalInCart",totalInCart);
-
-        double totalPrice=0.0;
-        for(Product item : orderProducts){
-            totalPrice+=item.getPrice();
-        }
-        model.addAttribute("totalPrice",totalPrice);
-
-        double discount=0.;
-        double shipping=0.;
-        double tax=0.;
-        double freeShipping= 150. - 0.001;
-        double taxRate = 6./100.;  // tax rate for example 6%
-
-        if(totalInCart>0){
-            discount=-15.50;
-            if(totalPrice<=freeShipping) shipping=10.0;
-            tax=totalPrice*taxRate;
-        }
-
-        double estimatedTotal = totalPrice+discount+shipping+tax;
-        model.addAttribute("discount",discount);
-        model.addAttribute("shipping",shipping);
-        model.addAttribute("tax",tax);
-        model.addAttribute("estimatedTotal",estimatedTotal);
+        List<State> states = stateService.getAllStates();
+        model.addAttribute("states", states);
 
         return "place_order";
     }
 
-    // Save product to database
+    // Save user shipping and payment information to a database
     @PostMapping("/placeOrder")
-    public String saveUserInfo(@ModelAttribute("userInfo") UserInformation userInfo, Authentication authentication) {
-        System.out.println("-[3]---> UserInfoController class - saveProduct() method - Endpoint(/products) - EndPoint(redirect:/products)");
+    public String saveUserInfo(@ModelAttribute("userInfo") PlaceOrder userInfo, Authentication authentication) {
+        System.out.println("-[2]---> PlaceOrderController class - saveUserInfo() method - Endpoint(/placeOrder) - EndPoint(orderShipped)");
 
         User existing = userServiceImpl.findByEmail(authentication.getName());
 
@@ -93,8 +122,9 @@ public class UserInfoController {
         return "redirect:/orderShipped";
     }
 
+    // Conformation: conform shipping and payment
     @GetMapping("/orderShipped")
-    public String orderShipped(Model model, Authentication authentication) throws ParseException {
+    public String orderShipped(Model model, Authentication authentication) {
 
         int  shipAfterDays = 10;  // Days add to existing date for Expected Shipping Day
 
@@ -128,64 +158,10 @@ public class UserInfoController {
     }
 
     /*
-    @GetMapping("/placeOrder")
-    public String createUserInfo(Model model, Authentication authentication) {
-
-        UserInformation userInfo = new UserInformation();
-        model.addAttribute("userInfo", userInfo);
-
-        User existing = userService.findByEmail(authentication.getName());
-        model.addAttribute("firstName",existing.getFirstName());
-        model.addAttribute("lastName",existing.getLastName());
-        model.addAttribute("email",existing.getEmail());
-
-        //System.out.println("---------> "+userInfo.getAddress1());
-/*
-        User existingUser = userService.findByEmail(existing.getEmail());
-        existingUser.setPhone("-----------111----------> Phone number : "+user.getPhone());
-        System.out.println("----- [user.getPhone()] ---> "+user.getPhone());
-        existingUser.setAddress1(user.getAddress1());
-        System.out.println("----- [user.getAddress1()] ---> "+user.getAddress1());
-        existingUser.setAddress2(user.getAddress2());
-        existingUser.setCity(user.getCity());
-        existingUser.setZipCode(user.getZipCode());
-        existingUser.setState(user.getState());
-
-        userService.userUpdate(existingUser);
-*/
-    /*
-        //int totalInCart=100;
-        int totalInCart = shoppingCartService.getTotalInCart();
-        //System.out.println(totalInCart);
-        model.addAttribute("totalInCart",totalInCart);
-
-        double totalPrice = shoppingCartService.getTotalPriceInCart();
-        model.addAttribute("totalPrice",totalPrice);
-
-        double discount=0.;
-        double shipping=0.;
-        double tax=0.;
-        double freeShipping= 150. - 0.001;
-        double taxRate = 6./100.;  // tax rate for example 6%
-
-        if(totalInCart>0){
-            discount=-15.50;
-            if(totalPrice<=freeShipping) shipping=10.0;
-            tax=totalPrice*taxRate;
-        }
-
-        double estimatedTotal = totalPrice+discount+shipping+tax;
-        model.addAttribute("discount",discount);
-        model.addAttribute("shipping",shipping);
-        model.addAttribute("tax",tax);
-        model.addAttribute("estimatedTotal",estimatedTotal);
-
-        return "place_order";
-    }
 
     @PostMapping("/placeOrder")
-    public String addUserInfo(@ModelAttribute("userInfo") UserInformation userInfo){
-        System.out.println("-[1]---> UserInfoController class - addUserInfo() method - Endpoint(/placeOrder) - HTML(redirect:/home)");
+    public String addUserInfo(@ModelAttribute("userInfo") PlaceOrder userInfo){
+        System.out.println("-[1]---> PlaceOrderController class - addUserInfo() method - Endpoint(/placeOrder) - HTML(redirect:/home)");
 
         userInformationServiceImpl.saveUserInfo(userInfo);
 

@@ -81,8 +81,7 @@ public class ProductController {
 
     // Update the product and save it to a database
     @PostMapping("/products/{id}")
-    public String updateProduct(Model model,
-                                @PathVariable Long id,
+    public String updateProduct(@PathVariable Long id,
                                 @ModelAttribute("product") Product product){
         System.out.println("-[5]---> ProductController class - updateProduct() method - Endpoint(/products/{id}) - Endpoint(redirect:/products)");
 

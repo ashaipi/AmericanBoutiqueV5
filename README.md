@@ -1,29 +1,32 @@
 # American Boutique Application
-
-![img_2.png](img_2.png)
+![img_11.png](img_11.png)
 
 ## Description
 The American Boutique application is an e-commerce platform designed to facilitate the buying and selling of products online. It provides users with a user-friendly interface to browse products, add them to their shopping bag, and place orders securely.
 
 ## Features
 User and Manager Authentication: Users and Managers can sign up, sign in, and sign out securely.
-![img_4.png](img_4.png)
+![img_13.png](img_13.png)
+
+![img_14.png](img_14.png)
 
 Product management: Managers can add update delete products.
-![img_5.png](img_5.png)
+![img_15.png](img_15.png)
 
-![img_6.png](img_6.png)
+![img_16.png](img_16.png)
+
+![img_17.png](img_17.png)
 
 Product Catalog: Users can browse through a catalog of available products.
-![img_7.png](img_7.png)
+![img_18.png](img_18.png)
 
 Shopping Bag: Users can add products to their shopping cart and manage their cart.
-![img_8.png](img_8.png)
+![img_19.png](img_19.png)
 
 Order Placement: Users can place orders securely.
-![img_9.png](img_9.png)
+![img_20.png](img_20.png)
 
-![img_10.png](img_10.png)
+![img_21.png](img_21.png)
 
 ## Technologies Used
 - Java (JDK 17): Backend programming language.

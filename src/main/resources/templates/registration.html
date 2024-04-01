@@ -49,37 +49,44 @@
 				<p class="error-message" th:if="${#fields.hasGlobalErrors()}"
 				   th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation Error</p>
 				<div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
+					<label for="firstName"></label>
 					<input id="firstName" type="text" class="text-control" placeholder="First Name" th:field="*{firstName}" />
 					<p class="error-message" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
+					<label for="lastName"></label>
 					<input id="lastName" type="text" class="text-control" placeholder="Last Name" th:field="*{lastName}" />
 					<p class="error-message" th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+					<label for="email"></label>
 					<input id="email" type="email" class="text-control" placeholder="Email Address" th:field="*{email}" required>
 					<p class="error-message" th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<div class="form-group" th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
+					<label for="confirmEmail"></label>
 					<input id="confirmEmail" type="email" class="text-control" placeholder="Confirm Email Address" th:field="*{confirmEmail}" />
 					<p class="error-message" th:each="error : ${#fields.errors('confirmEmail')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<!-- Password has at least eight characters, one uppercase letter, one lowercase letter, one digit, and one special character -->
 				<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
-					<input id="password" type="password"  class="text-control" placeholder="Password" th:field="*{password}" required>
+					<label for="password"></label>
+					<input id="password" type="password" class="text-control" placeholder="Password" th:field="*{password}" required>
 					<p class="error-message" th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<div class="form-group" th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
-					<input id="confirmPassword" type="password"  class="text-control" placeholder="Confirm Password" th:field="*{confirmPassword}" required>
+					<label for="confirmPassword"></label>
+					<input id="confirmPassword" type="password" class="text-control" placeholder="Confirm Password" th:field="*{confirmPassword}" required>
 					<p class="error-message" th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}">Validation error</p>
 				</div>
 
 				<div style="font-size: 15px" class="form-group" th:classappend="${#fields.hasErrors('terms')}? 'has-error':''">
+					<label for="terms"></label>
 					<input id="terms" type="checkbox" th:field="*{terms}" />
 						Yes! Please email me about special offers.
 					<p class="error-message" th:each="error : ${#fields.errors('terms')}" th:text="${error}">Validation error</p>

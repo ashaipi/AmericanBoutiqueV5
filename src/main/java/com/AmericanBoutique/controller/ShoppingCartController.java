@@ -4,6 +4,8 @@ import com.AmericanBoutique.model.Orders;
 import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @Controller
 public class ShoppingCartController {
+
+    Logger logger = LoggerFactory.getLogger(ShoppingCartController.class);
 
     private final UserServiceImpl userServiceImpl;
     private final OrderServiceImpl orderServiceImpl;
@@ -53,7 +58,8 @@ public class ShoppingCartController {
             orderServiceImpl.saveOrder(orders);
         } catch (Exception e) {
             // Log the exception or handle it appropriately
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.error("An error occurred:", e);
         }
 
         // Redirect the user to a confirmation page or back to the product page

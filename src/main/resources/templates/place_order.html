@@ -48,20 +48,24 @@
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
+                                                <label for="firstName">First Name</label>
                                                 <input type="text" class="form-control" id="firstName"
                                                        placeholder="First Name" th:value="${firstName}" disabled>
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label for="lastName">Last Name</label>
                                                 <input type="text" class="form-control" id="lastName"
                                                        placeholder="Last Name" th:value="${lastName}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
+                                                <label for="address1">Address 1</label>
                                                 <input type="text" class="form-control" id="address1"
                                                        placeholder="Address 1" th:field="*{address1}">
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label for="address2">Address 2</label>
                                                 <input type="text" class="form-control" id="address2"
                                                        placeholder="Address 2" th:field="*{address2}">
                                             </div>
@@ -69,36 +73,44 @@
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
+                                                <label for="city">City</label>
                                                 <input type="text" class="form-control" id="city" placeholder="City"
                                                        th:field="*{city}">
                                             </div>
                                             <div class="form-group col-md-2">
+                                                <label for="zip">Zip Code</label>
                                                 <input type="text" class="form-control" id="zip" placeholder="Zip Code"
                                                        th:field="*{zipCode}">
                                             </div>
                                             <div class="form-group col-md-4">
+                                                <label for="state">State</label>
                                                 <select id="state" class="form-control">
-                                                    <option selected>Massachusetts</option>
+                                                    <option th:each="s : ${states}" th:text="${s.state}" th:selected="${userInfo.state == s.state}"></option>
                                                     <!-- Add state options here -->
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
+                                                <label>Code | Phone Number</label>
                                                 <div class="input-group">
+
                                                     <div class="input-group-prepend">
+                                                        <label for="areaCode"></label>
                                                         <select class="custom-select" id="areaCode">
                                                             <option selected>1</option>
                                                             <!-- Add area code options here -->
                                                         </select>
                                                     </div>
+                                                    <label for="phone"></label>
                                                     <input type="text" class="form-control" id="phone"
                                                            placeholder="Phone Number" th:field="*{phone}">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <input type="email" class="form-control" id="email" placeholder="Email"
-                                                       th:value="${email}" disabled>
+                                                <label for="email">Email Address</label>
+                                                <input type="email" class="form-control" id="email"
+                                                       placeholder="Email" th:value="${email}" disabled>
                                             </div>
                                         </div>
 
@@ -110,19 +122,23 @@
                                     <h2>Billing Information</h2>
 
                                         <div class="form-group">
+                                            <label for="cardHolderName">Card Holder Name</label>
                                             <input type="text" class="form-control" id="cardHolderName"
                                                    placeholder="Cardholder Name" th:field="*{cardholderName}">
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
+                                                <label for="cardNumber">Card Number</label>
                                                 <input type="text" class="form-control" id="cardNumber"
                                                        placeholder="Card Number" th:field="*{cardNumber}">
                                             </div>
                                             <div class="form-group col-md-3">
+                                                <label for="expiryDate">Expiration Date</label>
                                                 <input type="text" class="form-control" id="expiryDate"
                                                        placeholder="MM/YY" th:field="*{expiredDate}">
                                             </div>
                                             <div class="form-group col-md-3">
+                                                <label for="cvv">CVV</label>
                                                 <input type="text" class="form-control" id="cvv"
                                                        placeholder="CVV" th:field="*{cvv}">
                                             </div>
@@ -153,7 +169,7 @@
                     </tr>
                     <tr>
                         <td style="color: rgb(201, 0, 0);">Discounts</td>
-                        <td style="color: rgb(201, 0, 0);" th:text="${'$'+#numbers.formatDecimal(discount, 1, 2)}"></td>
+                        <td style="color: rgb(201, 0, 0);" th:text="${'$'+#numbers.formatDecimal(totalDiscount, 1, 2)}"></td>
                     </tr>
                     <tr>
                         <td>Shipping</td>
@@ -169,7 +185,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <a th:href = "@{orderShipped}">
+                <!-- <a th:href = "@{orderShipped}"> -->
+                <a>
                     <button id="checkout" type="submit">PLACE ORDER</button>
                 </a>
             </div>

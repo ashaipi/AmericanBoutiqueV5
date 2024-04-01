@@ -50,8 +50,7 @@ public class OrderController {
         Long id = 26L;
         System.out.println("-[3]---> ShoppingCartController class - deleteItemInCart() method - Endpoint(/shoppingCart/{id}) - EndPoint(redirect:/shopping_cart)");
         System.out.println("----------------> "+id);
-
-        //Orders orders = orderServiceImpl.getOrderById(id);
+        // Orders orders = orderServiceImpl.getOrderById(id);
 
 //        Session session = HibernateUtil.getSessionFactory().openSession();
 //        String deleteQuery = "DELETE FROM Orders WHERE id = :oId";
