@@ -1,6 +1,5 @@
 package com.AmericanBoutique.service;
 
-import com.AmericanBoutique.model.Color;
 import com.AmericanBoutique.model.State;
 import com.AmericanBoutique.repo.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;

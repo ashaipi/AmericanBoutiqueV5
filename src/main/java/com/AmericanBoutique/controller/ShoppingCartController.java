@@ -4,6 +4,7 @@ import com.AmericanBoutique.model.Orders;
 import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.service.*;
+import org.bouncycastle.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,14 +38,13 @@ public class ShoppingCartController {
 
     // add chosen product to shopping bag
     // Define endpoints for managing shopping cart
-    //@PostMapping("/addToCart")
     @RequestMapping(value = "/addToCart", method = {RequestMethod.GET, RequestMethod.POST})
     @Transactional
     public String addToCart(@RequestParam(name = "id") Long productId,
                             Authentication authentication) {
         System.out.println("-[1]---> ShoppingCartController class - addToCart() method - Endpoint(/addToCart) - HTML(redirect:/home)");
 
-        Product p = productService.getProductById(productId);
+        Product product = productService.getProductById(productId);
 
         // Call the CartService to save the product details to the cart table
         // shoppingCartService.addToCart(p.getProductName(), p.getDescription(), p.getPrice(), p.getImg());
@@ -53,7 +54,7 @@ public class ShoppingCartController {
         System.out.println("------------> User Name: "+user.getFirstName());
         Orders orders = new Orders();
         orders.setUser(user);
-        orders.setProduct(p);
+        orders.setProduct(product);
         orders.setStatus("Completed");
         try {
             orderServiceImpl.saveOrder(orders);
@@ -65,12 +66,6 @@ public class ShoppingCartController {
 
         // Redirect the user to a confirmation page or back to the product page
         return "redirect:/home";
-
-        // Return a JavaScript alert message
-        //return "<script>alert('Item added to cart successfully');</script>";
-
-        // Return a success message
-        // return "Item added to cart successfully";
     }
 
     // List all order products that in a shopping bag
@@ -78,23 +73,47 @@ public class ShoppingCartController {
     public String listItems(Model model, Authentication authentication) {
         System.out.println("-[2]-----> ShoppingCartController class - listItems() method - Endpoint(/shoppingCart) - HTML(shopping_cart)");
 
-        // to find the total in shopping bag
-        List<Orders> ordersList = orderServiceImpl.getAllOrders();
-        System.out.println("#[2.1]##############> Size of orderList: "+ordersList.size());
-
-        // find user id
+        // find login user id
         User user = userServiceImpl.findByEmail(authentication.getName());
         System.out.println("------------> User Name: "+user.getFirstName());
 
-        // filter order in shopping bag by user id
+        // Find the total in a shopping bag for all users
+        List<Orders> allOrdersInBag = orderServiceImpl.getAllOrders();
+        System.out.println("#[2.1]##############> Size of orderList: "+allOrdersInBag.size());
+
+        // Create a new Order object to save current user orders in a shopping bag
+        List<Orders> ordersList = new ArrayList<>();
+        // Filter orders in a shopping bag by existing user id
+        for(Orders o : allOrdersInBag){
+            if(o.getUser().getId()==user.getId()){
+                ordersList.add(o);
+            }
+        }
+
+        System.out.println("#[2.2]##############> Existing user shopping bag: "+ordersList.size());
+
+        // Find All order Products by existing user id
         List<Product> shoppingBag = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
         System.out.println("#[2.2]##############> "+shoppingBag.size());
+
+        List<User> allUsers = userServiceImpl.allUsers();
+        for(User u : allUsers){
+            System.out.printf("| UserId:    %-20d   |   UserName:    %-35s |\n",u.getId(),u.getFirstName());
+            // Find All order Products by Looping through users id (one by one)
+            List<Product> shoppingBag1 = orderServiceImpl.findJoinProductsUserAddToCart(u.getId());
+            for(Product p : shoppingBag1){
+                System.out.printf("| ProductID: %-20d   |   ProductName: %-35s |\n",p.getId(),p.getProductName());
+            }
+            System.out.println("------------------------------------------------------------------------------------------");
+        }
+
+
 
         for (int i = 0; i < shoppingBag.size(); i++) {
             // Covert from int to Long
             Long newId = Long.parseLong(String.valueOf(ordersList.get(i).getId()));
             shoppingBag.get(i).setId(newId);
-            System.out.println("#[2.3."+i+"]##############> "+shoppingBag.get(i).getId());
+            System.out.println("#[2.3."+i+"]##############> Order Id: "+shoppingBag.get(i).getId());
         }
 
         // Total number of products in Shopping Bag
@@ -104,9 +123,12 @@ public class ShoppingCartController {
         double totalPrice=0.0;
         double totalDiscount = 0.0;
         for(Product item : shoppingBag){
+            // Total price
             totalPrice+=item.getPrice();
+            // Total discount
             totalDiscount+=(item.getDiscount()/100)*item.getPrice();
         }
+        // Make total discount negative
         if(totalDiscount>0) totalDiscount*=-1;
 
         double shipping=0.;
@@ -115,8 +137,8 @@ public class ShoppingCartController {
         double taxRate = 6./100.;  // tax rate for example 6%
 
         if(totalInCart>0){
-            if(totalPrice<freeShipping) shipping=10.0;
-            tax=totalPrice*taxRate;
+            if(totalPrice<freeShipping) shipping=10.0;   // Set estimated price for shipping
+            tax=totalPrice*taxRate;     // total order tax price
         }
 
         // Order Summary (in a right side of shoppingCart HTML page)

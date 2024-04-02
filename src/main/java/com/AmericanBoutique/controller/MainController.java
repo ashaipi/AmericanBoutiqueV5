@@ -1,10 +1,14 @@
 package com.AmericanBoutique.controller;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.AmericanBoutique.model.Orders;
+import com.AmericanBoutique.model.Product;
 import com.AmericanBoutique.model.User;
 import com.AmericanBoutique.service.OrderServiceImpl;
 import com.AmericanBoutique.service.ProductService;
+import com.AmericanBoutique.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,17 +26,20 @@ import com.AmericanBoutique.service.UserService;
 public class MainController {
 
 	private final UserService userService;
-	private final OrderServiceImpl orderService;
+	private final OrderServiceImpl orderServiceImpl;
 	private final ProductService productService;
+	private final UserServiceImpl userServiceImpl;
 
 	@Autowired
 	public MainController(ProductService productService,
-						  OrderServiceImpl orderService,
-						  UserService userService) {
+						  OrderServiceImpl orderServiceImpl,
+						  UserService userService,
+						  UserServiceImpl userServiceImpl) {
 		super();
 		this.productService = productService;
-		this.orderService = orderService;
+		this.orderServiceImpl = orderServiceImpl;
 		this.userService = userService;
+		this.userServiceImpl = userServiceImpl;
 	}
 
 	//
@@ -80,15 +87,32 @@ public class MainController {
 		System.out.println("-[2]---> MainController class - home() method - Endpoint(/home) - HTML(home)");
 		model.addAttribute("products", productService.getAllProducts());
 
+
+		// to find the total in a shopping bag for all users
+		List<Orders> ordersList = orderServiceImpl.getAllOrders();
+		System.out.println("#[2.1]##############> Size of orderList: "+ordersList.size());
+
+		// find login user id
+		User user = userServiceImpl.findByEmail(authentication.getName());
+		System.out.println("------------> User Name: "+user.getFirstName());
+
+		// filter order in shopping bag by user id
+		List<Product> totalInCart = orderServiceImpl.findJoinProductsUserAddToCart(user.getId());
+		System.out.println("#[2.2]##############> "+totalInCart.size());
+
+
+
+
+
 		// Total orders in a shopping bag
-		int totalInCart = orderService.getTotalInBag();
-		System.out.println("-[2.1]--> Total in shopping bag: "+totalInCart);
+		//int totalInCart = orderServiceImpl.getTotalInBag();
+		//System.out.println("-[2.1]--> Total in shopping bag: "+totalInCart);
 
-		model.addAttribute("totalInCart",totalInCart);
+		model.addAttribute("totalInCart",totalInCart.size());
 
-		User existing = userService.findByEmail(authentication.getName());
-		System.out.println("-[2.2]--> Sign in Name: "+existing.getFirstName());
-		model.addAttribute("userName",existing.getFirstName());
+		// User existing = userService.findByEmail(authentication.getName());
+		//System.out.println("-[2.2]--> Sign in Name: "+existing.getFirstName());
+		model.addAttribute("userName",user.getFirstName());
 
 		return "home";
 	}

@@ -2,6 +2,7 @@ package com.AmericanBoutique.service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,11 +20,15 @@ import com.AmericanBoutique.repo.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
-   @Autowired
-   private UserRepository userRepository;
+   private final UserRepository userRepository;
+   private final BCryptPasswordEncoder passwordEncoder;
 
    @Autowired
-   private BCryptPasswordEncoder passwordEncoder;
+   public UserServiceImpl(UserRepository userRepository,
+                          BCryptPasswordEncoder passwordEncoder){
+       this.userRepository = userRepository;
+       this.passwordEncoder = passwordEncoder;
+   }
 
    public User findByEmail(String email){
        return userRepository.findByEmail(email);
@@ -38,6 +43,10 @@ public class UserServiceImpl implements UserService {
        user.setPassword(passwordEncoder.encode(registration.getPassword()));
        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
        return userRepository.save(user);
+   }
+
+   public List<User> allUsers(){
+       return userRepository.findAll();
    }
 
    @Override
