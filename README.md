@@ -10,7 +10,7 @@ User and Manager Authentication: Users and Managers can sign up, sign in, and si
 
 ![img_14.png](img_14.png)
 
-Product management: Managers can add update delete products.
+Product management: Managers can add, edit, and delete products.
 ![img_15.png](img_15.png)
 
 ![img_16.png](img_16.png)
@@ -20,7 +20,7 @@ Product management: Managers can add update delete products.
 Product Catalog: Users can browse through a catalog of available products.
 ![img_18.png](img_18.png)
 
-Shopping Bag: Users can add products to their shopping bag and manage their bag.
+Shopping Bag: Users can add products to their shopping bag as well as manage their selected items.
 ![img_19.png](img_19.png)
 
 Order Placement: Users can place orders securely.
