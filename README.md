@@ -1,5 +1,6 @@
 # American Boutique Application
-![img_11.png](img_11.png)
+
+![img_24.png](img_24.png)
 
 ## Description
 The American Boutique application is an e-commerce platform designed to facilitate the buying and selling of products online. It provides users with a user-friendly interface to browse products, add them to their shopping bag, and place orders securely.
@@ -34,7 +35,7 @@ Curated selection of products showcasing their names,
 Keep track of your selections with a dynamic shopping bag icon displaying the total number of items added.
 And Account icon to Sign-in or change user.
 
-![img_18.png](img_18.png)
+![img_25.png](img_25.png)
 
 **Shopping Bag**: Users can add products to their shopping bag as well as manage their selected items.
 Also visualize items with product images alongside their names, descriptions, sizes, and colors.
